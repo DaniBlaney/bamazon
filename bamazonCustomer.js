@@ -16,7 +16,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId);
+  // console.log("connected as id " + connection.threadId);
  displayProducts();
 });
 
@@ -29,8 +29,8 @@ var displayProducts = function() {
 		if (err) throw err;
 
 		for (var i = 0; i < res.length; i++) {
-			console.log("Product ID: " + res[i].item_id + " || Product Name: " +
-						res[i].product_name + " || Price: " + res[i].price);
+			console.log("Item ID: " + res[i].item_id + " || Product Name: " +
+						res[i].product_name + " || Price: $" + res[i].price);
 		}
 
 		// Requests product and number of product items user wants to purchase.
@@ -42,7 +42,7 @@ var userRequest = function(){
   inquirer.prompt([{
 		name: "item_id",
 		type: "input",
-		message: "Please enter item ID for product you want.",
+		message: "Please enter item ID for product you want:",
 		validate: function(value) {
 			if (isNaN(value) === false) {
 				return true;
@@ -61,16 +61,17 @@ var userRequest = function(){
 			return false
 		}
 	}]).then(function(answer) {
-
+		var item = answer.item_id;
+		var quantity = answer.quantity;
 		// Queries database for selected product.
-		var query = "Select stock_quantity, price, product_sales, department_name FROM products WHERE ?";
+		var query = "Select stock_quantity, price, product_name, department_name FROM products WHERE ?";
 		connection.query(query, { item_id: answer.item_id}, function(err, res) {
 
 			if (err) throw err;
 
 			var available_stock = res[0].stock_quantity;
 			var price_per_unit = res[0].price;
-			var productSales = res[0].product_sales;
+			var productSales = res[0].product_name;
 			var productDepartment = res[0].department_name;
 
 			// Checks there's enough inventory  to process user's request.
