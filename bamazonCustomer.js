@@ -16,6 +16,14 @@ var connection = mysql.createConnection({
   database: 'bamazon'
 });
 
+function start(){
+  connection.query('SELECT * FROM products', function(err, res){
+    if (err) throw err;
+    console.log('--------Welcome to Bamazon--------');
+    console.log("Item ID: " + res[i].item_id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "QTY: " + res[i].stock_quantity);
+  })
+}
+
 //prompts user what id and how many
 
 function userPurchase(){
@@ -50,7 +58,7 @@ function userPurchase(){
         else {
           var productData = data[0];
           console.log('productData.stock_quantity = ' + productData.stock_quantity);
-          
+
         }
       })
 
