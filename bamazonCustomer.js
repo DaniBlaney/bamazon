@@ -20,7 +20,7 @@ connection.connect(function(err) {
  displayProducts();
 });
 
-console.log('--------Welcome to BAMazon--------');
+console.log('-------------------------Welcome to BAMazon-------------------------');
 
 var displayProducts = function() {
 	var query = "Select * FROM products";
@@ -61,8 +61,9 @@ var userRequest = function(){
 			return false
 		}
 	}]).then(function(answer) {
-		var item = answer.item_id;
-		var quantity = answer.quantity;
+		// var item = answer.item_id;
+		// var quantity = answer.quantity;
+
 		// Queries database for selected product.
 		var query = "Select stock_quantity, price, product_name, department_name FROM products WHERE ?";
 		connection.query(query, { item_id: answer.item_id}, function(err, res) {
@@ -71,14 +72,15 @@ var userRequest = function(){
 
 			var available_stock = res[0].stock_quantity;
 			var price_per_unit = res[0].price;
-			var productSales = res[0].product_name;
+			var productSales = res[0].quanity;
 			var productDepartment = res[0].department_name;
 
 			// Checks there's enough inventory  to process user's request.
-			if (available_stock >= answer.quanity) {
+			if (res[0].stock_quantity > answer.quantity) {
 
 				// Processes user's request passing in data to complete purchase.
 				completePurchase(available_stock, price_per_unit, productSales, productDepartment, answer.item_id, answer.quanity);
+
 			} else {
 
 				// Tells user there isn't enough stock left.
@@ -106,7 +108,7 @@ var completePurchase = function(availableStock, price, productSales, productDepa
 	var query = "UPDATE products SET ? WHERE ?";
 	connection.query(query, [{
 		stock_quantity: updatedStockQuantity,
-		product_sales: updatedProductSales
+		productSales: updatedProductSales
 	}, {
 		item_id: selectedProductID
 	}], function(err, res) {
