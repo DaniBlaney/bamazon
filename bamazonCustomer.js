@@ -7,14 +7,18 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
   host: 'localhost',
-  port: 8080,
+  port: 3000,
 
   user: 'root',
-
   password: '4MySQL32!',
-
   database: 'bamazon',
 });
+
+// connection.connect(function(err) {
+//   if (err) throw err;
+//   console.log("connected as id " + connection.threadId);
+//   startPrompt();
+// });
 
 function start(){
   console.log('--------Welcome to BAMazon--------');
@@ -30,7 +34,7 @@ console.log('------------------------------------------------------------------'
 
 //prompts user what id and how many
 
-function userPurchase(){
+function startPrompt(){
 
   inquirer.prompt([
     {
@@ -106,7 +110,6 @@ function promptAgain(){
     } else {
       console.log("Thanks shopping BAMazon!");
     }
-  })
-}
-
-
+  });
+};
+start();
