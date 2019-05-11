@@ -27,7 +27,7 @@ var amountDue;
 var currentDepartment;
 var updateSales;
 
-var displayProducts = function() {
+function displayProducts() {
 	var query = "Select * FROM products";
 	connection.query(query, function(err, res) {
 
@@ -43,7 +43,7 @@ var displayProducts = function() {
 	});
 };
 
-var userRequest = function(){
+function userRequest(){
   inquirer.prompt([{
 		name: "itemId",
 		type: "input",
@@ -73,7 +73,7 @@ var userRequest = function(){
 			} else {
 				amountDue = res[0].price * answer.quantity;
 				currentDepartment = res [0]. department_name;
-				console.log("Thank you for you order! Your total is $" + amountDue);
+				console.log("Thank you for you order! Your total is $" + amountDue.toFixed(2));
 				console.log('')
 				//update product sales
 				connection.query('UPDATE products SET ? WHERE ?',[{
