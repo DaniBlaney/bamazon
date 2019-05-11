@@ -97,6 +97,7 @@ function userRequest(){
 	}
 
 	function updateDepartmentSales(){
+		console.log('hey');
 		connection.query('UPDATE departments SET ? WHERE ?', [{
 			total_sales: updateSales
 		},{
@@ -107,9 +108,9 @@ function userRequest(){
 	//Allows the user to place a new order or end the connection
 	function newOrder(){
 		inquirer.prompt([{
-			type: 'confirm',
-			name: 'choice',
-			message: 'Would you like to place another order?'
+			name: "choice",
+			type: "confirm",
+			message: "Would you like to place another order?"
 		}]).then(function(answer){
 			if(answer.choice){
 				userRequest();
