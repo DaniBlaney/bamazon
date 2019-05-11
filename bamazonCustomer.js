@@ -20,7 +20,7 @@ connection.connect(function(err) {
  displayProducts();
 });
 console.log('')
-console.log('-------------------------Welcome to BAMazon-------------------------');
+console.log('------------------------------Welcome to BAMazon-------------------------------');
 console.log('')
 
 var amountDue;
