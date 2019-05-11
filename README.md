@@ -2,7 +2,7 @@
 
 ## Description
 
-* An interactive storefront that runs in the console using node. This storefront in no way resembles Amazon, except in name.
+* An interactive storefront that runs in the console using node. 
 
 ## How it works
 
