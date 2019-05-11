@@ -19,8 +19,13 @@ connection.connect(function(err) {
   // console.log("connected as id " + connection.threadId);
  displayProducts();
 });
-
+console.log('')
 console.log('-------------------------Welcome to BAMazon-------------------------');
+console.log('')
+
+var amountDue;
+var currentDepartment;
+var updateSales;
 
 var displayProducts = function() {
 	var query = "Select * FROM products";
@@ -40,7 +45,7 @@ var displayProducts = function() {
 
 var userRequest = function(){
   inquirer.prompt([{
-		name: "item_id",
+		name: "itemId",
 		type: "input",
 		message: "Please enter item ID for product you want:",
 		validate: function(value) {
@@ -48,7 +53,6 @@ var userRequest = function(){
 				return true;
 			}
       return false;
-
 		}
 	}, {
 		name: "quantity",
@@ -61,103 +65,60 @@ var userRequest = function(){
 			return false
 		}
 	}]).then(function(answer) {
-		// var item = answer.item_id;
-		// var quantity = answer.quantity;
-
-		// Queries database for selected product.
-		var query = "Select stock_quantity, price, product_name, department_name FROM products WHERE ?";
-		connection.query(query, { item_id: answer.item_id}, function(err, res) {
-
-			if (err) throw err;
-
-			var available_stock = res[0].stock_quantity;
-			var price_per_unit = res[0].price;
-			var productSales = res[0].quanity;
-			var productDepartment = res[0].department_name;
-
-			// Checks there's enough inventory  to process user's request.
-			if (res[0].stock_quantity > answer.quantity) {
-
-				// Processes user's request passing in data to complete purchase.
-				completePurchase(available_stock, price_per_unit, productSales, productDepartment, answer.item_id, answer.quanity);
+		connection.query('SELECT * FROM products WHERE item_id = ?', [answer.itemId], function(err,res){
+			if (answer.quantity > res[0].stock_quantity){
+				console.log("Sorry, there is not enough in stock!");
+				console.log('');
 
 			} else {
+				amountDue = res[0].price * answer.quantity;
+				currentDepartment = res [0]. department_name;
+				console.log("Thank you for you order! Your total is $" + amountDue);
+				console.log('')
+				//update product sales
+				connection.query('UPDATE products SET ? WHERE ?',[{
+					stock_quantity: res[0].stock_quantity - answer.quantity
+				},{
+					item_id: answer.itemId
+				}], function(err,res){});
+				logSale();
+				newOrder();
+			}
+		})
+	})
+}
 
-				// Tells user there isn't enough stock left.
-				console.log("Sorry, there is not enough in stock!");
+	//this logs the users order and updates table
+	function logSale(){
+		connection.query('SELECT * FROM departments WHERE department_name = ?', [currentDepartment], function(err, res){
+			updateSales = res[0].total_sales + amountDue;
+			updateDepartmentSales();
+		})
+	}
 
-				// Lets user request a new product.
+	function updateDepartmentSales(){
+		connection.query('UPDATE departments SET ? WHERE ?', [{
+			total_sales: updateSales
+		},{
+			department_name: currentDepartment
+		}], function (err,res){});
+	}
+
+	//Allows the user to place a new order or end the connection
+	function newOrder(){
+		inquirer.prompt([{
+			type: 'confirm',
+			name: 'choice',
+			message: 'Would you like to place another order?'
+		}]).then(function(answer){
+			if(answer.choice){
 				userRequest();
 			}
-		});
-	});
-};
-// Completes user's request to purchase product.
-var completePurchase = function(availableStock, price, productSales, productDepartment, selectedProductID, selectedProductUnits) {
+			else{
+				console.log('Thank you for shopping at BAMazon!');
+				connection.end();
+			}
+		})
+	};
 
-	// Updates stock quantity once purchase complete.
-	var updatedStockQuantity = availableStock - selectedProductUnits;
-
-	// Calculates total price for purchase based on unit price, and number of units.
-	var totalPrice = price * selectedProductUnits;
-
-	// Updates total product sales.
-	var updatedProductSales = parseInt(productSales) + parseInt(totalPrice);
-
-	// Updates stock quantity on the database based on user's purchase.
-	var query = "UPDATE products SET ? WHERE ?";
-	connection.query(query, [{
-		stock_quantity: updatedStockQuantity,
-		productSales: updatedProductSales
-	}, {
-		item_id: selectedProductID
-	}], function(err, res) {
-
-		if (err) throw err;
-		// Tells user purchase is a success.
-		console.log("Your purchase is complete.");
-
-		// Display the total price for that purchase.
-		console.log("You're total: " + totalPrice);
-
-		// Updates department revenue based on purchase.
-		updateDepartmentRevenue(updatedProductSales, productDepartment);
-		// Displays products so user can make a new selection.
-	});
-};
-
-// Updates total sales for department after completed purchase.
-var updateDepartmentRevenue = function(updatedProductSales, productDepartment) {
-
-	// Query database for total sales value for department.
-	var query = "Select total_sales FROM departments WHERE ?";
-	connection.query(query, { department_name: productDepartment}, function(err, res) {
-
-		if (err) throw err;
-
-		var departmentSales = res[0].total_sales;
-
-		var updatedDepartmentSales = parseInt(departmentSales) + parseInt(updatedProductSales);
-
-		// Completes update to total sales for department.
-		departmentSalesUpdate(updatedDepartmentSales, productDepartment);
-	});
-};
-
-// Completes update to total sales for department on database.
-var departmentSalesUpdate = function(updatedDepartmentSales, productDepartment) {
-
-	var query = "UPDATE departments SET ? WHERE ?";
-	connection.query(query, [{
-		total_sales: updatedDepartmentSales
-	}, {
-		department_name: productDepartment
-	}], function(err, res) {
-
-		if (err) throw err;
-
-		// Displays products so user can choose to make another purchase.
-		displayProducts();
-	});
-};
-// console.log("Thanks for shopping BAMazon!");
+		// displayProducts();
