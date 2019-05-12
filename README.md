@@ -8,10 +8,7 @@
 
 * They are all dependencies in the package.json, after you clone down my repository run:
 
-<p align="center">
 npm install
-</p>
-
 
 ## How it works
 
