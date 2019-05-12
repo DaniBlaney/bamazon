@@ -82,5 +82,5 @@ function addDepartment(){
 			department_name: department,
 			over_head_costs: overhead
 		}, function(err, res){});
-		newTransaction();
+		newOption();
 })};
