@@ -40,7 +40,7 @@ function supervisorOptions(){
 					// console.log('Total Profit: ' + profit);
 					console.log('-----------------');
 				}
-			newTransaction();
+			newOption();
 			})
 		}
 		else{
@@ -49,3 +49,21 @@ function supervisorOptions(){
 
 	})
 };
+
+
+//Prompt the user to see if they would like to do something else  or end the connection
+function newOption(){
+	inquirer.prompt([{
+		type: 'confirm',
+		name: 'choice',
+		message: 'Would you like to do something else?'
+	}]).then(function(answer){
+		if(answer.choice){
+			supervisorOptions();
+		}
+		else{
+			console.log('Have a great day!');
+			connection.end();
+		}
+	})
+}
