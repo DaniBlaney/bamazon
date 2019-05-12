@@ -37,7 +37,7 @@ function supervisorOptions(){
 					console.log('Department ID: ' + res[i].department_id + ' | ' + 'Department Name: ' + res[i].department_name);
 					console.log('Overhead Costs: ' + res[i].over_head_costs);
 					console.log('Total Sales: ' + res[i].total_sales);
-					// console.log('Total Profit: ' + profit);
+					console.log('Total Profit: ' + profit);
 					console.log('-----------------');
 				}
 			newOption();
