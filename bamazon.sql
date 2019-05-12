@@ -23,5 +23,21 @@ VALUES  ('Revlon UltraHD Matte Lipstick', 'Cosmetics', 5.69, 50),
 		('Echo Dot', 'Electronics', 29.99, 200),
 		('Huggies Diapers 124ct', 'Baby', 46.99, 76),
 		('AmazonBrand Mega Roll Toilet Paper', 'Grocery', 22.25, 575);
-        
+
 SELECT * FROM bamazon.products;
+
+USE bamazon;
+CREATE TABLE departments (
+  department_id INT NOT NULL AUTO_INCREMENT,
+  department_name VARCHAR(100) NOT NULL,
+  over_head_costs DECIMAL(7,2) NOT NULL DEFAULT '0.00',
+  total_sales DECIMAL(7,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (department_id)
+);
+
+USE bamazon;
+INSERT INTO departments(department_name, over_head_costs) VALUES('Grocery', 500);
+INSERT INTO departments(department_name, over_head_costs) VALUES('Baby', 1500);
+INSERT INTO departments(department_name, over_head_costs) VALUES('Electronics', 2500);
+INSERT INTO departments(department_name, over_head_costs) VALUES('Cosmetics', 800);
+Select * From departments;
