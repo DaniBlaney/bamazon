@@ -6,9 +6,12 @@
 
 * Bamazon uses these node modules: inquirer, mysql.
 
-They are all dependencies in the package.json, after you clone down my repository run:
+* They are all dependencies in the package.json, after you clone down my repository run:
 
+<p align="center">
 npm install
+</p>
+
 
 ## How it works
 
