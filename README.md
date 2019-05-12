@@ -27,8 +27,13 @@
   <img src="images/bamwhatwouldyou.png">
 </kbd>
 
--- View Sales by Department
 
+-- View Sales by Department
 <kbd>
   <img src="images/bamazonSupdep.png">
+</kbd>
+
+-- Create New Department
+<kbd>
+  <img src="images/bamazonNewdep.png">
 </kbd>
