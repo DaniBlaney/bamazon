@@ -30,5 +30,5 @@
 -- View Sales by Department
 
 <kbd>
-  <img src="images/bamSupdep.png">
+  <img src="images/bamazonSupdep.png">
 </kbd>
