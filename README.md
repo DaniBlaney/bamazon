@@ -2,7 +2,7 @@
 
 ## Description
 
-* An interactive storefront that runs in the console using node. 
+* An interactive storefront that runs in the console using node.
 
 ## How it works
 
@@ -15,3 +15,7 @@
 ---------------------------------------------------------------------------------------
 
 **bamazonManager.js** -- The second app, BamazonManager.js, allows a "manager" to view available items, view low inventory (less than five in stock), add to the inventory, or add a new product.
+
+<kbd>
+  <img src="images/bamazonManagerPrompt.png">
+</kbd>
