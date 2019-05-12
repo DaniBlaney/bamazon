@@ -16,7 +16,7 @@ var connection = mysql.createConnection({
 //Establish Connection
 connection.connect(function(err){
 	if (err) throw err;
-	console.log('connected as id: ' + connection.threadId)
+	// console.log('connected as id: ' + connection.threadId)
 	managerInput();
 });
 
@@ -42,7 +42,7 @@ function managerInput(){
 				console.log('Product Name: ' + res[i].product_name);
 				console.log('Price: ' + '$' + res[i].price);
 				console.log('Quantity in Stock: ' + res[i].stock_quantity);
-				console.log('-------------------------------------------');
+				console.log('--------------------------------------------------------------------');
 			}
 			console.log('')
 			newTransaction();
@@ -52,12 +52,12 @@ function managerInput(){
 			connection.query('SELECT * FROM products WHERE stock_quantity < 5', function(err, res){
 				if (err) throw err;
 				console.log('')
-				console.log('========================LOW INVENTORY=======================');
+				console.log('----------------------------LOW INVENTORY----------------------------');
 				for(i=0;i<res.length;i++){
 					console.log('Name: ' + res[i].product_name);
 					console.log('Product ID: ' + res[i].id);
 					console.log('Quantity in Stock: ' + res[i].stock_quantity);
-					console.log('-------------------------------------------');
+					console.log('-------------------------------------------------------------------');
 				}
 				newTransaction();
 			})
