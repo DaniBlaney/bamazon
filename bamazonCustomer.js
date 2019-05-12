@@ -73,7 +73,7 @@ function userRequest(){
 			} else {
 				amountDue = res[0].price * answer.quantity;
 				currentDepartment = res [0]. department_name;
-				console.log("Thank you for you order! Your total is $" + amountDue.toFixed(2));
+				console.log("Thank you for your order! Your total is $" + amountDue.toFixed(2));
 				console.log('')
 				//update product sales
 				connection.query('UPDATE products SET ? WHERE ?',[{
