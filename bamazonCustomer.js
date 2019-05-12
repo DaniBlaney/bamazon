@@ -97,7 +97,6 @@ function userRequest(){
 	}
 
 	function updateDepartmentSales(){
-		console.log('hey');
 		connection.query('UPDATE departments SET ? WHERE ?', [{
 			total_sales: updateSales
 		},{
