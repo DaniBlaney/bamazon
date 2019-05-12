@@ -34,7 +34,7 @@ function supervisorOptions(){
 				console.log('SALES BY DEPARTMENT');
 				for(i=0; i<res.length; i++){
 					var profit = res[i].total_sales - res[i].over_head_costs;
-					console.log('Department ID: ' + res[i].department_id + ' | ' + 'Department Name: ' + res[i].DepartmentName);
+					console.log('Department ID: ' + res[i].department_id + ' | ' + 'Department Name: ' + res[i].department_name);
 					console.log('Overhead Costs: ' + res[i].over_head_costs);
 					console.log('Total Sales: ' + res[i].total_sales);
 					// console.log('Total Profit: ' + profit);
